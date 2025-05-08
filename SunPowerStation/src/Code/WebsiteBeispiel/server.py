@@ -10,8 +10,8 @@ app.register_blueprint(main_routes)
 
 # HERE U can connect the database
 # here u can connect and evaluate threads
-# here u can connect and evaluate mqtt-connectiuonas
-# some thread u could use with:
+# here u can connect and evaluate mqtt-connections
+
 
 
 if __name__ == '__main__':

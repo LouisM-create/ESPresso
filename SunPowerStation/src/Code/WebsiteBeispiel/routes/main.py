@@ -6,8 +6,12 @@ main_routes = Blueprint('main_routes', __name__, url_prefix='/')
 
 @main_routes.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', title = 'Home')
 
 @main_routes.route('/test')
 def test():
     return render_template('test.html')
+
+@main_routes.route('/test2')
+def test2():
+    return render_template('index.html', title = 'not Home')
