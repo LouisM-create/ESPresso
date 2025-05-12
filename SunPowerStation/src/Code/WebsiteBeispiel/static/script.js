@@ -5,3 +5,14 @@ function redirect() {
 }
 
 console.log(document.getElementById("title").textContent)
+
+
+function buttonClicked1() {
+    window.location.href = "/temperatur";
+}
+function buttonClicked2() {
+    window.location.href = "/heizung";
+}   
+function homeButoon() {
+    window.location.href = "/";
+}

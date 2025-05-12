@@ -15,3 +15,11 @@ def test():
 @main_routes.route('/test2')
 def test2():
     return render_template('index.html', title = 'not Home')
+
+@main_routes.route('/temperatur')
+def temperatur():
+    return render_template('temperatur.html', title = 'Temperatur')
+
+@main_routes.route('/heizung')
+def heizung():
+    return render_template('heizung.html', title = 'Heizung')
