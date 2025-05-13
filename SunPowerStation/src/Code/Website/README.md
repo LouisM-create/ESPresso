@@ -1,5 +1,5 @@
 ## Sever Starten:
-### python SunPowerStation/src/Code/WebsiteBeispiel/server.py
+### python SunPowerStation/src/Code/Website/server.py
 
 ## routen definieren unter dem ordner Routes
 
