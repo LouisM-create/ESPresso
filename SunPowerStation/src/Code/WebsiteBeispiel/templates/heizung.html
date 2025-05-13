@@ -2,22 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="../static/icon.jpg" type="image/jpg">
+    <link rel="icon" href="../static/iconHeizung.jpg" type="image/jpg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heizungssteuerung</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="header">
-        <img class="headerImg" src="../static/icon.jpg" alt="Logo">
+        <img class="headerImg" src="../static/iconHeizung.jpg" alt="Logo">
         <button class="hadderHomeButton" onclick="homeButoon()">Home</button>
-        <div class="hadderHomeLettering">Heizung</div>
+        <div class="hadderLettering">Heizung</div>
     </div>
     <div class="main">
         <div class="sidebar">
-            <h1 class="siedbarContent">Heizungssteuerung</h1>
-            <button class="sidebarButton" onclick="buttonClicked1()">Ein</button>
-            <button class="sidebarButton" onclick="buttonClicked2()">Aus</button> 
+            <div class="sidebarTitele">Steuerung</div>
+            <button class="sidebarButton" onclick="heizungAn()">Ein</button>
+            <button class="sidebarButton" onclick="heizungAus()">Aus</button> 
         </div>
     </div>
     <script src="../static/script.js"></script>

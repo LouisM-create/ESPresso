@@ -16,3 +16,9 @@ function buttonClicked2() {
 function homeButoon() {
     window.location.href = "/";
 }
+function heizungAn() {
+    alert("Heizung wurde eingeschaltet");
+}
+function heizungAus() {
+    alert("Heizung wurde ausgeschaltet");
+}
