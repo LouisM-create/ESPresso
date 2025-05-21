@@ -12,10 +12,6 @@ def index():
 def test():
     return render_template('test.html')
 
-@main_routes.route('/test2')
-def test2():
-    return render_template('index.html', title = 'not Home')
-
 @main_routes.route('/temperatur')
 def temperatur():
     return render_template('temperatur.html', title = 'Temperatur')

@@ -1,6 +1,6 @@
 # ESPresso 
 
- # Programmieren 2 Projekt: ESP8266 Datenübertragung und Webinterface
+ # Programmieren 2 Projekt: ESP 8266 Datenübertragung, Datenbank und Webinterface
 
 ## Projektbeschreibung
 Dieses Projekt zielt darauf ab, einen ESP8266 Mikrocontroller zu programmieren, um Messdaten zu erfassen und an einen selbst aufgesetzten Server zur Verarbeitung zu senden. Zusätzlich wird ein Webinterface erstellt, um die gesammelten Daten anzuzeigen.
