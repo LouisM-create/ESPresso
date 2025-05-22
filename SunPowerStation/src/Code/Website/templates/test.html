@@ -19,7 +19,7 @@
     
         client.on('connect', () => {
           console.log("Verbunden");
-          client.subscribe("test/topic");
+          client.subscribe("esp8266/temperature");
         });
     
         client.on('message', (topic, message) => {
