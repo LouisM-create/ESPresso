@@ -53,6 +53,36 @@ body {
     border-radius: 5%;
 }
 
+@keyframes pulsieren {
+  0% {
+    background-color: #ffff00; /* Gelb */
+    opacity: 1;
+  }
+  50% {
+    background-color: #ffff99; /* Helleres Gelb */
+    opacity: 0.6;
+  }
+  100% {
+    background-color: #ffff00;
+    opacity: 1;
+  }
+}
+
+.status {
+  width: 100%;
+  padding: 1%;
+  background-color: #D03D12; /* Ursprüngliche Farbe, wird durch Animation überschrieben */
+  color: #000000;
+  text-align: left;
+  font-size: 150%;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+
+  /* Animation hinzufügen */
+  animation: pulsieren 2s infinite;
+}
+
 .main {
     display: flex;
     flex-grow: 1;
