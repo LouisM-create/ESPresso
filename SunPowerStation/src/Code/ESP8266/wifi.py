@@ -4,19 +4,12 @@ import network
 
 
 class Wifi:
-    def __init__(self,):
-        ssid= 'Test'
-        password=1234    #Nur zum Initialisieren gedacht 
+    def __init__(self,ssid,password):  #Nur zum Initialisieren gedacht 
         self.ssid = ssid
         self.password = password
         self.wlan = network.WLAN(network.STA_IF)
         self.led = machine.Pin(2, machine.Pin.OUT)  # GPIO 2 als Ausgang definieren
-        self.kno_Net= 0 
-        self.preSSID= 'S20jojo'                          
-        self.prePASS= 'jo_[00]:[36]_ue(2)na(5)__aygun__!'
-        self.preSSID_1= 'S20jojo?'                           #hieer Ihr wlan eingeben 
-        self.prePASS_1= 'jo_[00]:[36]_ue(2)na(5)__aygun__'# passwort für das wlan eingeben sonst wird es immer abgefragt :)
-
+       
     def check_wifi(self):
         print('Interface Status: ' + str(self.wlan.active()))
         if not self.wlan.active():
@@ -45,15 +38,6 @@ class Wifi:
     
     def connect_wifi(self):
         self.wlan.active(True)
-        if self.kno_Net==1:
-            self.ssid=self.preSSID
-            self.password=self.prePASS
-        if self.kno_Net==2:
-            self.ssid=self.preSSID_1
-            self.password=self.prePASS_1
-        if self.kno_Net==0:
-            self.ssid= input('Input Network name: ')
-            self.password= input('Input Password: ')
         self.wlan.connect(self.ssid,self.password)
         while not self.wlan.isconnected():
             print('Connecting...')
@@ -85,10 +69,7 @@ class Wifi:
         self.wlan.active(False)
         print('WLAN disconnected: ' + str(self.wlan)+ str(self.ssid))
         self.led.on()  # LED ausschalten, wenn WLAN getrennt ist   
-    def delet_wifi (self):
-         self.preSSID='Empty####'
-         self.preSSID_1='Empty####'
-         self.kno_Net=0
+   
     def prüf_connection(self):
         if self.wlan.isconnected():
            # print('WLAN connected') # sonnst nur unötige ausgaben 
