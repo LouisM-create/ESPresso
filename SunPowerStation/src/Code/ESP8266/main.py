@@ -175,12 +175,15 @@ while True:
     Uwmean = Uwsum / 10
     Rwmean = Rwsum / 10
 
+# Debug Ausgabe ====================
     print("=================================")
     print("Berechneter Seneor Widerstand Rx: {:.2f} Ohm".format(Rsmean))
     print("Berechneter Wire Widerstand Rx: {:.2f} Ohm".format(Rwmean))
     print("=================================")
     Temperatur = calculate_temperature(Rsmean, Rwmean)
     print("Berechnete Temperatur: {:.3f} °C".format(Temperatur))
+# ==================================
+    
 
     if client:
         client.publish(MQTT_TOPIC, str(Temperatur))  # Temperatur an MQTT Broker senden
