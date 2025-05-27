@@ -13,7 +13,7 @@ app.register_blueprint(main_routes)
 MQTT_BROKER = "localhost"
 MQTT_PORT = 1883
 MQTT_TOPIC_SUB1 = "esp8266/temperature"
-DB_PATH_TEMPERATUR = os.path.join('SunPowerStation/src/Code/Website/db/temperatur.de')
+DB_PATH_TEMPERATUR = os.path.join('db/temperatur.de')
 
 # MQTT Callback-Funktionen
 def on_connect(client, userdata, flags, rc):
