@@ -15,11 +15,13 @@
     </div>
     <div class ="status">!! ESP 8266 is not conected !!</div>
     <div class ="steuerung">
-         <button class="button" onclick="steuerung()">Steuerung</button>
+         <button class="button" onclick="steuerung()">
+          <p style="width: 100%; margin: 0;">Steuerung</p>
+         </button>
     </div>
     <div class="main">
         <div> <!-- Hier will ich weiter temperaturen (Esp eifügen wie temperaturESP1)-->
-            <div class ="temperaturESP1" id = "aktuelleTemperatur">22,5 °C</div>
+            <div class ="temperaturESP1" id = "aktuelleTemperatur">23.8896 °C 2025-05-27 | 21:21:12</div>
         </div>
         
 
@@ -33,7 +35,7 @@
     
         client.on('message', (topic, message) => {
           const msgBox = document.getElementById("aktuelleTemperatur");
-          msgBox.innerText = message;
+          msgBox.innerHTML = message;
         });
       </script>
     
