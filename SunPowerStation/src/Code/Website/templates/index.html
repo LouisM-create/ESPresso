@@ -35,11 +35,6 @@
           const msgBox = document.getElementById("aktuelleTemperatur");
           msgBox.innerText = message;
         });
-    
-        function sendMessage() {
-          const msg = document.getElementById("msg").value;
-          client.publish("test/topic", msg);
-        }
       </script>
     
     <script src="../static/script.js"></script>    
