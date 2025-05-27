@@ -1,5 +1,9 @@
 from flask import Flask, render_template, request, Blueprint, jsonify
 import json
+import sqlite3
+import os
+from datetime import datetime
+
 
 main_routes = Blueprint('main_routes', __name__, url_prefix='/')
 
@@ -16,6 +20,6 @@ def test():
 def temperatur():
     return render_template('temperatur.html', title = 'Temperatur')
 
-@main_routes.route('/heizung')
-def heizung():
-    return render_template('heizung.html', title = 'Heizung')
+@main_routes.route('/steuerung')
+def steuerung():
+    return render_template('steuerung.html', title = 'Steuerung')

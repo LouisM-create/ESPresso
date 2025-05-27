@@ -1,15 +1,19 @@
 from flask import Flask
 from routes.main import main_routes
 import time
-import paho.mqtt.client as mqtt
+#import paho.mqtt.client as mqtt
 import threading
+import os
+from datetime import datetime
+import sqlite3
+
 app = Flask(__name__, static_url_path='/static')
 app.register_blueprint(main_routes)
 
 MQTT_BROKER = "localhost"
 MQTT_PORT = 1883
 MQTT_TOPIC_SUB1 = "esp8266/temperature"
-
+DB_PATH_TEMPERATUR = os.path.join('SunPowerStation', 'src', 'Code', 'Website', 'db', 'temperatur.db')
 
 # MQTT Callback-Funktionen
 def on_connect(client, userdata, flags, rc):
@@ -19,11 +23,30 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, msg):
     if msg.topic == MQTT_TOPIC_SUB1:
-        print(f"[MQTT] Nachricht empfangen: {msg.topic} -> {msg.payload.decode()}")
+        try:
+            payload = msg.payload.decode()
+            print(f"[MQTT] Nachricht empfangen: {msg.topic} -> {payload}")
+            temperature = float(payload)
+
+            now = datetime.now()
+            datum = now.strftime("%Y-%m-%d")
+            uhrzeit = now.strftime("%H:%M:%S")
+
+            conn = sqlite3.connect(DB_PATH_TEMPERATUR)
+            c = conn.cursor()
+            c.execute('INSERT INTO temperatur (Datum, Uhrzeit, Temperatur) VALUES (?, ?, ?)',
+                      (datum, uhrzeit, temperature))
+            conn.commit()
+            conn.close()
+
+            print(f"[DB] Temperatur gespeichert: {temperature} °C am {datum} um {uhrzeit}")
+        except ValueError:
+            print("[Fehler] Ungültiger Temperaturwert empfangen.")
+        except Exception as e:
+            print(f"[Fehler] Beim Verarbeiten der Nachricht: {e}")
     else:
         print(f"[MQTT] Unbekanntes Topic: {msg.topic}")
-        return
-    
+
 # MQTT-Thread
 def mqtt_thread():
     client = mqtt.Client()
@@ -32,13 +55,8 @@ def mqtt_thread():
     client.connect(MQTT_BROKER, MQTT_PORT, 60)
     client.loop_forever()
 
-threading.Thread(target=mqtt_thread, daemon=True).start()
-# HERE U can connect the database
-# here u can connect and evaluate threads
-# here u can connect and evaluate mqtt-connections
-
-
+# Starte MQTT-Thread
+#threading.Thread(target=mqtt_thread, daemon=True).start()
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=3000, threaded=True)
-

@@ -22,3 +22,9 @@ function heizungAn() {
 function heizungAus() {
     alert("Heizung wurde ausgeschaltet");
 }
+function automatikBetrieb() {
+    alert("Heizung wurde ausgeschaltet");
+}
+function steuerung() {
+    window.location.href = "/steuerung";
+}

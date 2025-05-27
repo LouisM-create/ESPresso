@@ -1,7 +1,3 @@
-h1{
-    color: #000000;
-
-}
 body {
     display: flex;
     flex-direction: column;
@@ -24,7 +20,7 @@ body {
 
 .headerImg {
     margin-right: 10px;
-    margin-left: 20px;
+    margin-left: 10px;
     height: 40px;
     border-radius: 10%;
 }
@@ -44,9 +40,9 @@ body {
 .hadderLettering {
     margin-left: 50%;
     margin-right: 20px;
-    
     background-color: #D03D12;
     color: #000000;
+    text-align: center;
     font-size: 130%;
     border: none;
     cursor: pointer;
@@ -55,37 +51,76 @@ body {
 
 @keyframes pulsieren {
   0% {
-    background-color: #ffff00; /* Gelb */
+    background-color: #ffee00; /* Gelb */
     opacity: 1;
   }
   50% {
-    background-color: #ffff99; /* Helleres Gelb */
+    background-color: #fff9a0; /* Helleres Gelb */
     opacity: 0.6;
   }
   100% {
-    background-color: #ffff00;
+    background-color: #ffee00;
     opacity: 1;
   }
 }
 
 .status {
-  width: 100%;
-  padding: 1%;
-  background-color: #D03D12; /* Ursprüngliche Farbe, wird durch Animation überschrieben */
+  width: calc(96% - 20px); /* 10px links + 10px rechts abziehen */
+  padding: 2%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-right: 10px;
+  margin-left: 10px;
+
+  background-color: #D03D12;
   color: #000000;
   text-align: left;
-  font-size: 150%;
+  font-size: 200%;
   display: flex;
-  align-items: center;
-  box-sizing: border-box;
+  border-radius: 10px;
 
-  /* Animation hinzufügen */
   animation: pulsieren 2s infinite;
+}
+
+.steuerung {
+    display: flex;
+    height: 100px; /* oder z. B. 50%, 100vh, auto, etc. */
+   /*background-color: #757070; /* nur zur Veranschaulichung */
+
 }
 
 .main {
     display: flex;
     flex-grow: 1;
+}
+
+.button {
+    width: 20%;
+    height: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    
+    margin-right: 10px;
+    margin-left: 10px;
+    background-color: #D03D12;
+    color: #000000;
+    font-size: 300%;
+    cursor: pointer;
+}
+
+.temperaturESP1 {
+    width: 100px;
+    height: 100px;
+    padding: 15px;
+    border: 10px solid #007BFF; /* Blau */
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+    background-color: #ffffff;
+    font-size: 200%;
 }
 
 .sidebar {
@@ -112,26 +147,3 @@ body {
     border-radius: 2.5%;
 }
 
-.sidebarTitele {
-    width: 100%;
-    height: 10%;
-    padding: 20px;
-    border-bottom: 100px;
-    margin: 20px;
-    background-color: #ffffff;
-    color: #000000;
-    font-size: 250%;
-    border-radius: 5%;
-}
-
-.content {
-    flex-grow: 1;
-    padding: 20px;
-    margin-left: 1%;
-}
-
-.title {
-    background-color: #ffffff;
-    color: #000000;
-    padding-left: 50%;
-}
