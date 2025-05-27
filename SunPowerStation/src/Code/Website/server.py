@@ -23,27 +23,23 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, msg):
     if msg.topic == MQTT_TOPIC_SUB1:
-        try:
-            payload = msg.payload.decode()
-            print(f"[MQTT] Nachricht empfangen: {msg.topic} -> {payload}")
-            temperature = float(payload)
+        
+        payload = msg.payload.decode()
+        print(f"[MQTT] Nachricht empfangen: {msg.topic} -> {payload}")
+        temperature = float(payload)
 
-            now = datetime.now()
-            datum = now.strftime("%Y-%m-%d")
-            uhrzeit = now.strftime("%H:%M:%S")
+        now = datetime.now()
+        datum = now.strftime("%Y-%m-%d")
+        uhrzeit = now.strftime("%H:%M:%S")
 
-            conn = sqlite3.connect(DB_PATH_TEMPERATUR)
-            c = conn.cursor()
-            c.execute('INSERT INTO temperatur (Datum, Uhrzeit, Temperatur) VALUES (?, ?, ?)',
-                      (datum, uhrzeit, temperature))
-            conn.commit()
-            conn.close()
+        conn = sqlite3.connect(DB_PATH_TEMPERATUR)
+        c = conn.cursor()
+        c.execute('INSERT INTO temperatur (Datum, Uhrzeit, Temperatur) VALUES (?, ?, ?)',
+                    (datum, uhrzeit, temperature))
+        conn.commit()
+        conn.close()
 
-            print(f"[DB] Temperatur gespeichert: {temperature} °C am {datum} um {uhrzeit}")
-        except ValueError:
-            print("[Fehler] Ungültiger Temperaturwert empfangen.")
-        except Exception as e:
-            print(f"[Fehler] Beim Verarbeiten der Nachricht: {e}")
+        print(f"[DB] Temperatur gespeichert: {temperature} °C am {datum} um {uhrzeit}")
     else:
         print(f"[MQTT] Unbekanntes Topic: {msg.topic}")
 
