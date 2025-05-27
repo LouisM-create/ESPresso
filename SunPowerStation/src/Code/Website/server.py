@@ -1,7 +1,7 @@
 from flask import Flask
 from routes.main import main_routes
 import time
-#import paho.mqtt.client as mqtt
+import paho.mqtt.client as mqtt
 import threading
 import os
 from datetime import datetime
@@ -56,7 +56,7 @@ def mqtt_thread():
     client.loop_forever()
 
 # Starte MQTT-Thread
-#threading.Thread(target=mqtt_thread, daemon=True).start()
+threading.Thread(target=mqtt_thread, daemon=True).start()
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=3000, threaded=True)
