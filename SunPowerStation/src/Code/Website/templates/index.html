@@ -18,10 +18,29 @@
     </div>
     <div class="main">
         <div> <!-- Hier will ich weiter temperaturen (Esp eifügen wie temperaturESP1)-->
-            <div class ="temperaturESP1">22,5 °C</div>
+            <div class ="temperaturESP1" id = "aktuelleTemperatur">22,5 °C</div>
         </div>
         
+
+        <script>
+        const client = mqtt.connect("ws://hellgate.ddns.net:8083");
     
-    <script src="../static/script.js"></script>
+        client.on('connect', () => {
+          console.log("Verbunden");
+          client.subscribe("esp8266/temperature/ack");
+        });
+    
+        client.on('message', (topic, message) => {
+          const msgBox = document.getElementById("aktuelleTemperatur");
+          msgBox.innerText = message;
+        });
+    
+        function sendMessage() {
+          const msg = document.getElementById("msg").value;
+          client.publish("test/topic", msg);
+        }
+      </script>
+    
+    <script src="../static/script.js"></script>    
 </body>
 </html>
