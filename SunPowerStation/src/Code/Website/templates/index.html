@@ -11,7 +11,9 @@
 <body>
     <div class="header">
         <img class="headerImg" src="../static/iconHeizung.jpg" alt="Logo">
-        <button class="hadderHomeButton" onclick="homeButoon()">Home</button>
+        <button class="hadderHomeButton" onclick="homeButoon()">
+            <p style="width: 100%; margin: 0;align-items: center;      /* Vertikal zentrieren */
+    justify-content: center;  /* Horizontal zentrieren */">Home</p></button>
     </div>
     <!-- Status von dem ESP8266-->
     <div class ="status">
@@ -30,7 +32,7 @@
 
     <!-- Hier wird die Aktuelle Temperatur angezeigt -->
     <div class="main">
-        <div class="temperaturLayout"> <!-- Hier will ich weiter temperaturen (Esp eifügen wie temperaturESP1)-->
+        <div> <!-- Hier will ich weiter temperaturen (Esp eifügen wie temperaturESP1)-->
             <div class ="temperaturESP1" id = "aktuelleTemperatur">23.88°C</div>
         </div>
         

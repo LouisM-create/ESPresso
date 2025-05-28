@@ -113,7 +113,7 @@ body {
 
 .temperaturLayout {
     width: 20%;
-    height: 101px;
+    height: 20%;
     margin: 20px 10px;
     background-color: rgb(150, 131, 131);
 }
@@ -123,9 +123,9 @@ body {
     height: auto;
     border: 10px solid #007BFF; /* Blau */
     border-radius: 10px;
-    margin: 0;
+    margin: 20px 10px;
     background-color: none;
-    font-size: 5vw;
+    font-size: 6vw;
 }
 
 .sidebar {
