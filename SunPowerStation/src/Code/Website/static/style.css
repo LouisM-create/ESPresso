@@ -65,33 +65,31 @@ body {
 }
 
 .status {
-  width: calc(96% - 20px); /* 10px links + 10px rechts abziehen */
-  padding: 2%;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  margin-right: 10px;
-  margin-left: 10px;
-
-  background-color: #D03D12;
-  color: #000000;
-  text-align: left;
-  font-size: 200%;
-  display: flex;
-  border-radius: 10px;
-
-  animation: pulsieren 2s infinite;
+    display: flex;
+    align-items: center;      /* Vertikal zentrieren */
+    justify-content: center;  /* Horizontal zentrieren */
+    height: 50px;
+    width: calc(96% - 20px);
+    padding: 2%;
+    margin: 20px 10px;
+    background-color: #D03D12;
+    color: #000000;
+    text-align: center;
+    border-radius: 10px;
+    animation: pulsieren 2s infinite;
 }
+
+.statusText {
+    margin: 0;
+    width: 100%;
+    font-size: 3vw
+}
+
 
 .steuerung {
     display: flex;
     height: 100px; /* oder z. B. 50%, 100vh, auto, etc. */
    /*background-color: #757070; /* nur zur Veranschaulichung */
-
-}
-
-.main {
-    display: flex;
-    flex-grow: 1;
 }
 
 .button {
@@ -100,7 +98,6 @@ body {
     padding: 15px;
     border: none;
     border-radius: 10px;
-    
     margin-right: 10px;
     margin-left: 10px;
     background-color: #D03D12;
@@ -109,18 +106,26 @@ body {
     cursor: pointer;
 }
 
+.main {
+    display: flex;
+    flex-grow: 1;
+}
+
+.temperaturLayout {
+    width: 20%;
+    height: 101px;
+    margin: 20px 10px;
+    background-color: rgb(150, 131, 131);
+}
+
 .temperaturESP1 {
-    width: 500px;
-    height: 100px;
-    padding: 15px;
+    padding: auto;
+    height: auto;
     border: 10px solid #007BFF; /* Blau */
     border-radius: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-right: 10px;
-    margin-left: 10px;
-    background-color: #ffffff;
-    font-size: 200%;
+    margin: 0;
+    background-color: none;
+    font-size: 5vw;
 }
 
 .sidebar {

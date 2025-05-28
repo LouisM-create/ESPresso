@@ -13,32 +13,29 @@
         <img class="headerImg" src="../static/iconHeizung.jpg" alt="Logo">
         <button class="hadderHomeButton" onclick="homeButoon()">Home</button>
     </div>
-    <div class ="status">!! ESP 8266 is not conected !!</div>
-    <div class ="steuerung">
-         <button class="button" onclick="steuerung()">
-          <p style="width: 100%; margin: 0;">Steuerung</p>
-         </button>
+    <!-- Status von dem ESP8266-->
+    <div class ="status">
+      <div class ="statusText">
+        <p style="width: 100%; margin: 0;">!! ESP 8266 is not conected !!</p>
+      </div>
     </div>
+
+    <!--Steuerungsfeld mit dem Button-->
+    <div class ="steuerung">
+        <button class="button" onclick="steuerung()">
+            <p style="width: 100%; margin: 0;align-items: center;      /* Vertikal zentrieren */
+    justify-content: center;  /* Horizontal zentrieren */">Steuerung</p>
+        </button>
+    </div>
+
+    <!-- Hier wird die Aktuelle Temperatur angezeigt -->
     <div class="main">
-        <div> <!-- Hier will ich weiter temperaturen (Esp eifügen wie temperaturESP1)-->
-            <div class ="temperaturESP1" id = "aktuelleTemperatur">23.8896 °C 2025-05-27 | 21:21:12</div>
+        <div class="temperaturLayout"> <!-- Hier will ich weiter temperaturen (Esp eifügen wie temperaturESP1)-->
+            <div class ="temperaturESP1" id = "aktuelleTemperatur">23.88°C</div>
         </div>
         
 
-        <script>
-        const client = mqtt.connect("ws://hellgate.ddns.net:8083");
-    
-        client.on('connect', () => {
-          console.log("Verbunden");
-          client.subscribe("esp8266/temperature/ack");
-        });
-    
-        client.on('message', (topic, message) => {
-          const msgBox = document.getElementById("aktuelleTemperatur");
-          msgBox.innerHTML = message;
-        });
-      </script>
-    
+    <skript src="../static/mqtt-handler.js"></skript>
     <script src="../static/script.js"></script>    
 </body>
 </html>
