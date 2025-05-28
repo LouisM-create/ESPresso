@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <link rel="icon" href="../static/iconHeizung.jpg" type="image/jpg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heizungs-Steuerung</title>
+    <title>Heizungssteuerung</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 </head>
 <body>
     <div class="header">
         <img class="headerImg" src="../static/iconHeizung.jpg" alt="Logo">
-        <button class="hadderHomeButton" onclick="homeButoon()">Home</button>
-        <div class="hadderLettering">Heizung</div>
+        <button class="hadderHomeButton" onclick="homeButoon()">
+            <p style="width: 100%; margin: 0;align-items: center;      /* Vertikal zentrieren */
+    justify-content: center;  /* Horizontal zentrieren */">Home</p></button>
     </div>
     <div class="main">
         <div class="sidebar">
