@@ -95,7 +95,8 @@ body {
 .button {
     width: 20%;
     height: 100%;
-    padding: 15px;
+    border: 16px solid #D03D12; /* Orange */
+    
     border: none;
     border-radius: 10px;
     margin-right: 10px;
