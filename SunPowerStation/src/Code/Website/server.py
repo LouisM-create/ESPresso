@@ -42,7 +42,8 @@ def on_message(client, userdata, msg):
         conn.close()
 
         # Senden an index.html
-        client.publish("esp8266/temperature/ack", f"{temperature:.2f} °C {datum} | {uhrzeit}")
+        client.publish("esp8266/temperature/ack", f"{temperature:.2f} °C\n{uhrzeit}")
+
 
         print(f"[DB] Temperatur gespeichert: {temperature} °C am {datum} um {uhrzeit}")
     else:
