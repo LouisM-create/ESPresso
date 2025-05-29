@@ -38,8 +38,8 @@ client.on('message', (topic, message) => {
 document.addEventListener("DOMContentLoaded", function() {
     const ctx = document.getElementById("temperatureChart").getContext("2d");
 
-    let minTemp = 15;  // Minimalwert für Temperatur
-    let maxTemp = 30;  // Maximalwert für Temperatur
+    let minTemp = 15;  // Minimalwert für Grenzlinie
+    let maxTemp = 30;  // Maximalwert für Grenzlinie
 
     let temperatureChart = new Chart(ctx, {
         type: "line",
@@ -57,11 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
             responsive: true,
             scales: {
                 x: { title: { display: true, text: "Uhrzeit" } },
-                y: { 
-                    title: { display: true, text: "Temperatur (°C)" }, 
-                    min: minTemp,  
-                    max: maxTemp  
-                }
+                y: { title: { display: true, text: "Temperatur (°C)" } } // Dynamisch ohne feste min/max-Werte
             },
             plugins: {
                 annotation: {
