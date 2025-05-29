@@ -64,6 +64,11 @@ body {
   }
 }
 
+.status.connected {
+    background-color: #28a745; /* Grün */
+    animation: none;
+}
+
 .status {
     display: flex;
     align-items: center;      /* Vertikal zentrieren */
