@@ -28,7 +28,6 @@ client.on('message', (topic, message) => {
         setConnectedStatus();
 
         const temperaturDiv = document.getElementById('aktuelleTemperatur');
-        const now = new Date().toLocaleTimeString();
-        temperaturDiv.innerHTML = `Aktuell:<br>${message.toString()}°C<br>${now} Uhr`;
+        temperaturDiv.innerText = message.toString(); // Kein HTML, nur Text
     }
 });
