@@ -58,9 +58,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     title: { display: true, text: "Temperatur (°C)" },
                     ticks: {
                         callback: function(value) {
-                            if (value === 15) {
+                            if (value === 20) {
                                 return "🔵 " + value;  // Blau für 15°C
-                            } else if (value === 40) {
+                            } else if (value === 30) {
                                 return "🔴 " + value;  // Rot für 40°C
                             }
                             return value;  // Standardfarbe für andere Zahlen
