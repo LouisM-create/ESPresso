@@ -100,9 +100,7 @@ body {
 .button {
     width: 20%;
     height: 100%;
-    border: 16px solid #D03D12; /* Orange */
-    
-    border: none;
+    border: 16px solid #D03D12; /* Orange */;
     border-radius: 10px;
     margin-right: 10px;
     margin-left: 10px;
