@@ -38,9 +38,6 @@ client.on('message', (topic, message) => {
 document.addEventListener("DOMContentLoaded", function() {
     const ctx = document.getElementById("temperatureChart").getContext("2d");
 
-    let minTemp = 15;  // Minimalwert für Grenzlinie
-    let maxTemp = 30;  // Maximalwert für Grenzlinie
-
     let temperatureChart = new Chart(ctx, {
         type: "line",
         data: {
@@ -57,37 +54,7 @@ document.addEventListener("DOMContentLoaded", function() {
             responsive: true,
             scales: {
                 x: { title: { display: true, text: "Uhrzeit" } },
-                y: { title: { display: true, text: "Temperatur (°C)" } } // Dynamisch ohne feste min/max-Werte
-            },
-            plugins: {
-                annotation: {
-                    annotations: {
-                        minLine: {
-                            type: "line",
-                            yMin: minTemp,
-                            yMax: minTemp,
-                            borderColor: "blue",
-                            borderWidth: 2,
-                            label: {
-                                enabled: true,
-                                content: "Min-Wert",
-                                position: "start"
-                            }
-                        },
-                        maxLine: {
-                            type: "line",
-                            yMin: maxTemp,
-                            yMax: maxTemp,
-                            borderColor: "orange",
-                            borderWidth: 2,
-                            label: {
-                                enabled: true,
-                                content: "Max-Wert",
-                                position: "start"
-                            }
-                        }
-                    }
-                }
+                y: { title: { display: true, text: "Temperatur (°C)" } }
             }
         }
     });
@@ -106,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .catch(error => console.error("Fehler beim Laden der Temperaturdaten:", error));
     }
 
-    // Temperaturdaten abrufen und alle 10 Sekunden aktualisieren
+    // Initiale Daten laden und alle 10 Sekunden aktualisieren
     fetchTemperatureData();
     setInterval(fetchTemperatureData, 10000);
 });
