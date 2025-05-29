@@ -17,11 +17,16 @@
     </div>
     <div class="main">
         <div class="sidebar">
-            <button class="sidebarButton" onclick="heizungAn()">Ein</button>
-            <button class="sidebarButton" onclick="heizungAus()">Aus</button> 
-            <button class="sidebarButton" onclick="automatikBetrieb()">Automatik</button>
+            <!-- Heizun An / Aus / Automatik-->
+            <button class="sidebarButton" id="heizungButton" onclick="toggleHeizung()">
+                <p style="width: 100%; margin: 0;align-items: center;justify-content: center;"
+                id="buttonText">Aus</p>
+            </button>
         </div>
+
     </div>
+    <script src="../static/mqtt-sender.js"></script>
+    <script src="../static/mqtt-handler.js"></script>
     <script src="../static/script.js"></script>
 </body>
 </html>
