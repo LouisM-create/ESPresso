@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const ctx = document.getElementById("temperatureChart").getContext("2d");
 
     let minTemp = 15;  // Minimalwert für Temperatur
-    let maxTemp = 40;  // Maximalwert für Temperatur
+    let maxTemp = 30;  // Maximalwert für Temperatur
 
     let temperatureChart = new Chart(ctx, {
         type: "line",
