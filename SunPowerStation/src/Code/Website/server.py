@@ -59,6 +59,9 @@ def get_temperature_data():
     data = [{"zeit": row[0], "temperatur": row[1]} for row in cursor.fetchall()]
     conn.close()
     
+    # Daten umkehren, sodass die ältesten zuerst kommen
+    data.reverse()
+    
     return jsonify(data)
 
 
