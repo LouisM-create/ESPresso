@@ -31,3 +31,49 @@ client.on('message', (topic, message) => {
         temperaturDiv.innerText = message.toString(); // Kein HTML, nur Text
     }
 });
+
+
+// grafik !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+document.addEventListener("DOMContentLoaded", function() {
+    const ctx = document.getElementById("temperatureChart").getContext("2d");
+
+    let temperatureChart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: [],
+            datasets: [{
+                label: "Temperaturverlauf",
+                data: [],
+                borderColor: "red",
+                backgroundColor: "rgba(255, 0, 0, 0.2)",
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: { title: { display: true, text: "Uhrzeit" } },
+                y: { title: { display: true, text: "Temperatur (°C)" } }
+            }
+        }
+    });
+
+    function fetchTemperatureData() {
+        fetch("/temperature-data")
+            .then(response => response.json())
+            .then(data => {
+                let labels = data.map(entry => entry.zeit);
+                let temperatures = data.map(entry => entry.temperatur);
+
+                temperatureChart.data.labels = labels;
+                temperatureChart.data.datasets[0].data = temperatures;
+                temperatureChart.update();
+            })
+            .catch(error => console.error("Fehler beim Laden der Temperaturdaten:", error));
+    }
+
+    // Initiale Daten laden und alle 10 Sekunden aktualisieren
+    fetchTemperatureData();
+    setInterval(fetchTemperatureData, 10000);
+});

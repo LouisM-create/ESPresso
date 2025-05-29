@@ -112,9 +112,9 @@ body {
     cursor: pointer;
 }
 
-.main {
+.aktuelleTemperatur {
     display: flex;
-    flex-grow: 1;
+    height: 160px;
 }
 
 .temperaturLayout {
@@ -132,6 +132,22 @@ body {
     margin: 20px 10px;
     background-color: none;
     font-size: 2vw;
+}
+
+.mainGrafik {
+    display: flex;
+    justify-content: center; /* Horizontale Zentrierung */
+    flex-grow: 1;
+}
+
+.main {
+    display: flex;
+    flex-grow: 1;
+}
+
+.chart-container {
+    width: 50%;
+    margin: 0 10px;
 }
 
 .sidebar {
@@ -157,4 +173,3 @@ body {
     margin-left: 5%;
     border-radius: 2.5%;
 }
-

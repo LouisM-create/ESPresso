@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heizungssteuerung</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+    
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 </head>
 <body>
@@ -18,7 +23,7 @@
     <!-- Status von dem ESP8266-->
     <div class ="status">
       <div class ="statusText">
-        <p style="width: 100%; margin: 0;">!! ESP 8266 is not conected !!</p>
+        <p style="width: 100%; margin: 0;">!! ESP 8266 not conected !!</p>
       </div>
     </div>
 
@@ -31,10 +36,20 @@
     </div>
 
     <!-- Hier wird die Aktuelle Temperatur angezeigt -->
-    <div class="main">
+    <div class="aktuelleTemperatur">
         <div> <!-- Hier will ich weiter temperaturen (Esp eifügen wie temperaturESP1)-->
             <div class ="temperaturESP1" id = "aktuelleTemperatur">Akruell:<br>--.--°C<br>--:--:-- Uhr</div>
+            
+           
+
         </div>
+    </div>
+    
+    <div class="mainGrafik">
+            <div class="chart-container">
+                <canvas id="temperatureChart"></canvas>
+            </div>
+    </div>
         
 
     <script src="../static/mqtt-handler.js"></script>

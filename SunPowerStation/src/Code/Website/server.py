@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask , jsonify
 from routes.main import main_routes
 import time
 import paho.mqtt.client as mqtt
@@ -48,6 +48,19 @@ def on_message(client, userdata, msg):
         print(f"[DB] Temperatur gespeichert: {temperature} °C am {datum} um {uhrzeit}")
     else:
         print(f"[MQTT] Unbekanntes Topic: {msg.topic}")
+
+# Route zum Abrufen der Temperaturdaten aus der Datenbank für die Grafik
+@app.route("/temperature-data")
+def get_temperature_data():
+    conn = sqlite3.connect(DB_PATH_TEMPERATUR)
+    cursor = conn.cursor()
+    cursor.execute("SELECT Uhrzeit, Temperatur FROM temperatur ORDER BY ID DESC LIMIT 30")
+    
+    data = [{"zeit": row[0], "temperatur": row[1]} for row in cursor.fetchall()]
+    conn.close()
+    
+    return jsonify(data)
+
 
 # MQTT-Thread
 def mqtt_thread():
