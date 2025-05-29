@@ -33,7 +33,7 @@ client.on('message', (topic, message) => {
 });
 
 
-// grafik !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// Grafik
 
 document.addEventListener("DOMContentLoaded", function() {
     const ctx = document.getElementById("temperatureChart").getContext("2d");
@@ -54,7 +54,9 @@ document.addEventListener("DOMContentLoaded", function() {
             responsive: true,
             scales: {
                 x: { title: { display: true, text: "Uhrzeit" } },
-                y: { title: { display: true, text: "Temperatur (°C)" } }
+                y: { title: { display: true, text: "Temperatur (°C)" } },
+                min: 15,
+                max: 20
             }
         }
     });
