@@ -54,7 +54,49 @@ document.addEventListener("DOMContentLoaded", function() {
             responsive: true,
             scales: {
                 x: { title: { display: true, text: "Uhrzeit" } },
-                y: { title: { display: true, text: "Temperatur (°C)" } }
+                y: { 
+                    title: { display: true, text: "Temperatur (°C)" },
+                    ticks: {
+                        callback: function(value) {
+                            if (value === 15) {
+                                return "🔵 " + value;  // Blau für 15°C
+                            } else if (value === 40) {
+                                return "🔴 " + value;  // Rot für 40°C
+                            }
+                            return value;  // Standardfarbe für andere Zahlen
+                        }
+                    }
+                }
+            },
+            plugins: {
+                annotation: {
+                    annotations: {
+                        minLine: {
+                            type: "line",
+                            yMin: 15,
+                            yMax: 15,
+                            borderColor: "blue",
+                            borderWidth: 2,
+                            label: {
+                                enabled: true,
+                                content: "Min-Wert",
+                                position: "start"
+                            }
+                        },
+                        maxLine: {
+                            type: "line",
+                            yMin: 40,
+                            yMax: 40,
+                            borderColor: "orange",
+                            borderWidth: 2,
+                            label: {
+                                enabled: true,
+                                content: "Max-Wert",
+                                position: "start"
+                            }
+                        }
+                    }
+                }
             }
         }
     });
@@ -73,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .catch(error => console.error("Fehler beim Laden der Temperaturdaten:", error));
     }
 
-    // Initiale Daten laden und alle 10 Sekunden aktualisieren
+    // Temperaturdaten abrufen und alle 10 Sekunden aktualisieren
     fetchTemperatureData();
     setInterval(fetchTemperatureData, 10000);
 });
