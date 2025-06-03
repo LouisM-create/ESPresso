@@ -42,14 +42,14 @@ function toggleHeizung() {
             .then(data => {
             console.log(data);
         })
-    } else if (heizungStatus === "on") {
+    } else if (heizungStatus === "auto") {
         fetch("heizung/off", { method: "POST" })
             .then(res => res.json())
             .then(data => {
                 console.log(data);
             });
         
-    } else if (heizungStatus === "auto") {
+    } else if (heizungStatus === "on") {
         fetch("heizung/auto", { method: "POST" })
             .then(res => res.json())
             .then(data => {
