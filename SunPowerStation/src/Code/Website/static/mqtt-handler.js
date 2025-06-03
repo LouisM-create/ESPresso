@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     fill: true
                 },
                 {
-                    label: "Referenzlinie 25°C",
+                    label: "Referenzlinie 20°C",
                     data: [],
                     borderColor: "green",
                     borderDash: [5, 5],
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     fill: false
                 },
                 {
-                    label: "Referenzlinie 35°C",
+                    label: "Referenzlinie 30°C",
                     data: [],
                     borderColor: "purple",
                     borderDash: [5, 5],
@@ -124,8 +124,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 let temperatures = data.map(entry => entry.temperatur);
 
                 // Erzeuge Linien für 25°C und 35°C in gleicher Länge wie labels
-                let ref25 = labels.map(() => 25);
-                let ref35 = labels.map(() => 35);
+                let ref25 = labels.map(() => 20);
+                let ref35 = labels.map(() => 30);
 
                 temperatureChart.data.labels = labels;
                 temperatureChart.data.datasets[0].data = temperatures;
