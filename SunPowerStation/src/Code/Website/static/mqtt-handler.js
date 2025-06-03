@@ -42,28 +42,43 @@ document.addEventListener("DOMContentLoaded", function() {
         type: "line",
         data: {
             labels: [],
-            datasets: [{
-                label: "Temperaturverlauf",
-                data: [],
-                borderColor: "red",
-                backgroundColor: "rgba(255, 0, 0, 0.2)",
-                fill: true
-            }]
+            datasets: [
+                {
+                    label: "Temperaturverlauf",
+                    data: [],
+                    borderColor: "red",
+                    backgroundColor: "rgba(255, 0, 0, 0.2)",
+                    fill: true
+                },
+                {
+                    label: "Referenzlinie 25°C",
+                    data: [],
+                    borderColor: "green",
+                    borderDash: [5, 5],
+                    pointRadius: 0,
+                    fill: false
+                },
+                {
+                    label: "Referenzlinie 35°C",
+                    data: [],
+                    borderColor: "purple",
+                    borderDash: [5, 5],
+                    pointRadius: 0,
+                    fill: false
+                }
+            ]
         },
         options: {
             responsive: true,
             scales: {
-                x: { title: { display: true, text: "Uhrzeit" } },
+                x: { 
+                    title: { display: true, text: "Uhrzeit" } 
+                },
                 y: { 
                     title: { display: true, text: "Temperatur (°C)" },
                     ticks: {
                         callback: function(value) {
-                            if (value === 20) {
-                                return "🔵 " + value;  // Blau für 15°C
-                            } else if (value === 30) {
-                                return "🔴 " + value;  // Rot für 40°C
-                            }
-                            return value;  // Standardfarbe für andere Zahlen
+                            return value.toFixed(2); // Zeige zwei Nachkommastellen
                         }
                     }
                 }
@@ -108,8 +123,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 let labels = data.map(entry => entry.zeit);
                 let temperatures = data.map(entry => entry.temperatur);
 
+                // Erzeuge Linien für 25°C und 35°C in gleicher Länge wie labels
+                let ref25 = labels.map(() => 25);
+                let ref35 = labels.map(() => 35);
+
                 temperatureChart.data.labels = labels;
                 temperatureChart.data.datasets[0].data = temperatures;
+                temperatureChart.data.datasets[1].data = ref25;
+                temperatureChart.data.datasets[2].data = ref35;
+
                 temperatureChart.update();
             })
             .catch(error => console.error("Fehler beim Laden der Temperaturdaten:", error));
