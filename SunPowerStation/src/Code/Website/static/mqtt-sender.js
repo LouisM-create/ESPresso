@@ -4,6 +4,7 @@ let heizungStatus = "off"; // Startzustand der Heizung
 
 client.on("connect", () => {
     console.log("[MQTT] Verbunden mit Broker!");
+    client.subscribe("esp8266/heizungStatus");
 });
 client.on('message', (topic, message) => {
     if (topic === 'esp8266/heizungStatus') {
@@ -24,7 +25,7 @@ client.on('message', (topic, message) => {
             button.style.backgroundColor = "orange"; // Orange für Automatik
             text.innerText = "Automatik";
             heizungStatus = "auto";
-            
+
         } else {
             console.error("Unbekannter Heizungsstatus:", message.toString());
         }	
