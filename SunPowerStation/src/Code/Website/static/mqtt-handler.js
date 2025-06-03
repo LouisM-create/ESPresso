@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     fill: true
                 },
                 {
-                    label: "Referenzlinie 20°C",
+                    label: "Untergrenze 20°C",
                     data: [],
                     borderColor: "green",
                     borderDash: [5, 5],
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     fill: false
                 },
                 {
-                    label: "Referenzlinie 30°C",
+                    label: "Obergrenze 30°C",
                     data: [],
                     borderColor: "purple",
                     borderDash: [5, 5],
