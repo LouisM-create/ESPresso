@@ -9,7 +9,21 @@ class Wifi:
         self.password = password
         self.wlan = network.WLAN(network.STA_IF)
         self.led = machine.Pin(2, machine.Pin.OUT)  # GPIO 2 als Ausgang definieren
-       
+
+    def connect_wifi(self):
+        self.wlan.active(True)
+        self.wlan.connect(self.ssid,self.password)
+        while not self.wlan.isconnected():
+            print('Connecting...')
+            self.led.on() 
+            time.sleep(1)
+            self.led.off()
+            time.sleep(1)
+        if self.wlan.isconnected():
+            print('Is connectet...\nSSID: ' + self.ssid)
+            
+            self.led.off() 
+
     def check_wifi(self):
         print('Interface Status: ' + str(self.wlan.active()))
         if not self.wlan.active():
@@ -35,20 +49,6 @@ class Wifi:
                 print('Known Network found ')
                 print('Network: '+str(self.preSSID_1))
         self.led.on()
-    
-    def connect_wifi(self):
-        self.wlan.active(True)
-        self.wlan.connect(self.ssid,self.password)
-        while not self.wlan.isconnected():
-            print('Connecting...')
-            self.led.on() 
-            time.sleep(1)
-            self.led.off()
-            time.sleep(1)
-        if self.wlan.isconnected():
-            print('is connectet')
-            
-            self.led.off()
         
     def show_wifi_info(self):
         if self.wlan.isconnected():
@@ -64,6 +64,7 @@ class Wifi:
         else :
             self.led.on()  # LED ausschalten, wenn nicht verbunden
             print('WLAN nicht verbunden'+ str(self.wlan))
+    
     def disconnect_wifi(self):
         self.wlan.disconnect()
         self.wlan.active(False)

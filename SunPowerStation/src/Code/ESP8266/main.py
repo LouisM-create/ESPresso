@@ -5,34 +5,55 @@ import math
 import time
 import network
 from umqtt.simple import MQTTClient
+import wifi
+import json
 
+## Konstanten
 
+# Konstanten für die Temperaturmessung
+vcc = 3.3  # Versorgungsspannung
+r1 = 10000  # 10k Ohm
+rt0 = 100,156 # Widerstand bei 0 °C
+a = 3.9083e-3
+b = -5.775e-7
+
+counter = 0  # Zähler für die Schleife
+isAutoMode = False  # Flag für den Automatikmodus
+
+# Pinbelegung
+sensorPin = Pin(14, Pin.OUT)  # GPIO14 (D5) als Ausgang für den Sensor definieren
+wirePin = Pin(12, Pin.OUT)  # GPIO012 (D6) als Ausgang für die Wire definieren
+LedPin = Pin(2, Pin.OUT)  # GPIO2 (D4) als Ausgang für die LED definieren (Heizung Ein / Aus)
+Heizung = Pin(13, Pin.OUT)  # GPIO13 (D7) als Ausgang für die Heizung definieren
+
+sensorPin.off()  # Sensor ausschalten
+wirePin.off()  # Wire ausschalten
+Heizung.off()  # Heizung ausschalten
+
+# MQTT-Konfiguration Konstanten
 MQTT_BROKER = 'hellgate.ddns.net'
 MQTT_PORT = 1883
 MQTT_CLIENT_ID = 'ESP'
-MQTT_TOPIC = 'esp8266/temperature'
-
-
+MQTT_TOPIC = b'esp8266/temperature'
+MQTT_TOPIC_STEUERUNG = b'esp8266/heizungStuerung'
+MQTT_TOPIC_STATUS = b'esp8266/heizungStatus'
 
 # WLAN-Zugangsdaten
-ssid = 'FBI-Surveillance-Van'
-password = 'TopSecret0815'
+ssidHome = 'Nix-drin'
+passwordHome = 'xx'
+# Hotspot-Zugangsdaten
+ssidHotspot = 'FBI-Surveillance-Van'
+passwordHotspot = 'TopSecret0815'
+# WLAN-Objekt erstellen
+homeWifi = wifi.Wifi(ssidHome, passwordHome)  # WLAN-Objekt erstellen
+hotspotWifi = wifi.Wifi(ssidHotspot, passwordHotspot)  # Hotspot-Objekt erstellen
 
-# WLAN-Schnittstelle aktivieren
-wlan = network.WLAN(network.STA_IF)
-wlan.active(True)
 
-# Verbindung herstellen
-if not wlan.isconnected():
-    print('Verbinde mit WLAN...')
-    wlan.connect(ssid, password)
+# WLAN-Verbindung herstellen
+#homeWifi.connect_wifi()  # WLAN-Verbindung herstellen
+hotspotWifi.connect_wifi()  # Hotspot-Verbindung herstellen
 
-    # Warten bis verbunden
-    while not wlan.isconnected():
-        time.sleep(1)
-
-print('Erfolgreich verbunden!')
-print('Netzwerk-Konfiguration:', wlan.ifconfig())
+time.sleep(2)  # Kurze Pause, um sicherzustellen, dass die Verbindung hergestellt ist
 
 
 # I2C initialisieren (D1 = SCL, D2 = SDA)
@@ -100,42 +121,68 @@ def read_diff_2_3():
     voltage = (raw / 32768.0) * 4.096
     return voltage
 
+
 # Conetion zu MQTT Broker herstellen
 def connect_mqtt():
     client = MQTTClient(MQTT_CLIENT_ID, MQTT_BROKER, port=MQTT_PORT)
+    client.set_callback(heizung_callback)  # Callback-Funktion setzen
     client.connect()
+    client.subscribe(MQTT_TOPIC)  # Topic abonnieren
+    client.subscribe(MQTT_TOPIC_STEUERUNG)  # Steuerungsthema abonnieren
     print("MQTT Broker verbunden")
     return client
 
-# Konstanten
-Vcc = 3.3  # Versorgungsspannung
-R1 = 10000  # 10k Ohm
-Rt0 = 100.0 # Widerstand bei 0 °C
-A = 3.9083e-3
-B = -5.775e-7
+
+# Empfangen von MQTT-Nachrichten
+def heizung_callback(topic, msg):
+    global isAutoMode  # Zugriff auf die globale Variable isAutoMode
+    print(topic, msg)
+    try:
+        if topic == MQTT_TOPIC_STEUERUNG:
+            print("Kommando empfangen:", msg.decode())
+            if json.loads(msg.decode()) == "ON":
+                Heizung.on()  # Heizung einschalten
+                client.publish(MQTT_TOPIC_STATUS, "On")
+                isAutoMode = False  # Automatikmodus deaktivieren
+            elif json.loads(msg.decode()) == "OFF":
+                Heizung.off()
+                client.publish(MQTT_TOPIC_STATUS, "Off")
+                isAutoMode = False  # Automatikmodus deaktivieren
+            elif json.loads(msg.decode()) == "AUTO":
+                # Logik für auto Modus
+                isAutoMode = True
+                client.publish(MQTT_TOPIC_STATUS, "Auto")
+
+    except Exception as e:
+        print('Fehler bei Kommando-Verarbeitung:', e)
+
+
+# Automatik modus 
+def auto_mode(temp):
+    if temp <= 20.0:
+        Heizung.on()
+    elif temp >= 30.0:
+        Heizung.off()
+    
 
 
 # Wiederstandswiderstandsberechnung Rx
-def calculate_resistance(URx):
-    if 0 < URx < Vcc:
-        Rx = (R1 * URx) / (Vcc - URx)
+def calculate_resistance(uRx):
+    if 0 < uRx < vcc:
+        Rx = (r1 * uRx) / (vcc - uRx)
         return Rx
     else:
         return "Ungültige Spannung"
     
+
 # Temperaturberechnung
-def calculate_temperature(Rt, Rl):
-    T = 3383.81 - 3630.67 * math.sqrt(1 - 0.0013136 * (Rt - Rl))
+def calculate_temperature(rT, rw):
+    T = 3383.81 - 3630.67 * math.sqrt(1 - 0.0013136 * (rT - rw))
     return T
     
+
+
 # Hauptprogramm
-
-sensorPin = Pin(14, Pin.OUT)  # GPIO14 (D5) als Ausgang für den Sensor definieren
-wirePin = Pin(12, Pin.OUT)  # GPIO012 (D6) als Ausgang für die Wire definieren
-LedPin = Pin(2, Pin.OUT)  # GPIO2 (D4) als Ausgang für die LED definieren (Heizung Ein / Aus)
-
-sensorPin.off()  # Sensor ausschalten
-wirePin.off()  # Wire ausschalten
 
 try:
     # MQTT Verbindung herstellen
@@ -146,48 +193,59 @@ except Exception as e:
 
 while True:
     
-    Ussum = 0
-    Rssum = 0
-    Uwsum = 0
-    Rwsum = 0
+    uSensorSumm = 0
+    rSensorSumm = 0
+    uWireSumm = 0
+    rWireSumm = 0
 
     # Sensor Widerstand messung
     for i in range(10):
         sensorPin.on()
-        Us = read_diff_0_1() # Sensor Spannung
-        Rxsensor = calculate_resistance(Us) # Sensor Widerstand berechnen
+        uS = read_diff_0_1() # Sensor Spannung
+        rXSensor = calculate_resistance(uS) # Sensor Widerstand berechnen
         sensorPin.off()
-        Ussum += Us
-        Rssum += Rxsensor
+        uSensorSumm += uS
+        rSensorSumm += rXSensor
     
-    Usmean = Ussum / 10
-    Rsmean = Rssum / 10
+    uSensorMean = uSensorSumm / 10
+    rSensorMean = rSensorSumm / 10
 
     # Wiere Widerstand messung
     for i in range(10):
         wirePin.on()
-        Uw = read_diff_2_3() # Wire Spannung
-        Rxwire = calculate_resistance(Uw) - 1 # Wire Widerstand berechnen
+        uWire = read_diff_2_3() # Wire Spannung
+        rXWire = calculate_resistance(uWire) - 1 # Wire Widerstand berechnen
         wirePin.off()
-        Uwsum += Uw
-        Rwsum += Rxwire
+        uWireSumm += uWire
+        rWireSumm += rXWire
 
-    Uwmean = Uwsum / 10
-    Rwmean = Rwsum / 10
+    uWireMean = uWireSumm / 10
+    rWireMean = rWireSumm / 10
 
-# Debug Ausgabe ====================
-    print("=================================")
-    print("Berechneter Seneor Widerstand Rx: {:.2f} Ohm".format(Rsmean))
-    print("Berechneter Wire Widerstand Rx: {:.2f} Ohm".format(Rwmean))
-    print("=================================")
-    Temperatur = calculate_temperature(Rsmean, Rwmean)
-    print("Berechnete Temperatur: {:.3f} °C".format(Temperatur))
-# ==================================
+
+    if counter == 10: # Alle 10 Sekunden eine Nachricht senden (Die Temperatur)
+        # Debug Ausgabe ====================
+        print("=================================")
+        print("Berechneter Seneor Widerstand Rx: {:.2f} Ohm".format(rSensorMean))
+        print("Berechneter Wire Widerstand Rx: {:.2f} Ohm".format(rWireMean))
+        print("=================================")
+        temperatur = calculate_temperature(rSensorMean, rWireMean)
+        print("Berechnete Temperatur: {:.3f} °C".format(temperatur))
+        # ==================================
     
-
-    if client:
-        client.publish(MQTT_TOPIC, str(Temperatur))  # Temperatur an MQTT Broker senden
+        if client:
+            client.publish(MQTT_TOPIC, str(temperatur))  # Temperatur an MQTT Broker senden
+        counter = 0
+    try:
+        if isAutoMode:  # Wenn im Automatikmodus
+            auto_mode(temperatur)  # Automatikmodus ausführen
+        client.check_msg()  # Nachrichten abrufen
+        time.sleep(1) # Zeitverzögerung
+        counter += 1
+    except Exception as e:
+        print("Fehler:", e)
+        client.connect()
 
 
     # Zeitverzögerung    
-    time.sleep(2)
+    #time.sleep(10)
