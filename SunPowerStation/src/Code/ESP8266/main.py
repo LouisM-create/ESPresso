@@ -23,12 +23,14 @@ isAutoMode = False  # Flag für den Automatikmodus
 # Pinbelegung
 sensorPin = Pin(14, Pin.OUT)  # GPIO14 (D5) als Ausgang für den Sensor definieren
 wirePin = Pin(12, Pin.OUT)  # GPIO012 (D6) als Ausgang für die Wire definieren
-LedPin = Pin(2, Pin.OUT)  # GPIO2 (D4) als Ausgang für die LED definieren (Heizung Ein / Aus)
-Heizung = Pin(13, Pin.OUT)  # GPIO13 (D7) als Ausgang für die Heizung definieren
+ledWifiStatusPin = Pin(2, Pin.OUT)  # GPIO2 (D4) als Ausgang für die LED definieren (Heizung Ein / Aus)
+heizungPin = Pin(13, Pin.OUT)  # GPIO13 (D7) als Ausgang für die Heizung definieren
+automatikBetrieb = Pin(15, Pin.OUT)  # GPIO15 (D8) als Eingang für den Automatikbetrieb definieren
 
 sensorPin.off()  # Sensor ausschalten
 wirePin.off()  # Wire ausschalten
-Heizung.off()  # Heizung ausschalten
+heizungPin.off()  # Heizung ausschalten
+automatikBetrieb.off()  # Automatikbetrieb ausschalten
 
 # MQTT-Konfiguration Konstanten
 MQTT_BROKER = 'hellgate.ddns.net'
@@ -38,20 +40,28 @@ MQTT_TOPIC = b'esp8266/temperature'
 MQTT_TOPIC_STEUERUNG = b'esp8266/heizungStuerung'
 MQTT_TOPIC_STATUS = b'esp8266/heizungStatus'
 
+
 # WLAN-Zugangsdaten
 ssidHome = 'Nix-drin'
-passwordHome = 'xx'
+passwordHome = '20388305954881642810'
+
 # Hotspot-Zugangsdaten
 ssidHotspot = 'FBI-Surveillance-Van'
 passwordHotspot = 'TopSecret0815'
+
+# WLAN-Schule- Zugangsdaten
+ssidSchule = "xxx"
+passwordSchule = "xxxxx"
+
+
 # WLAN-Objekt erstellen
 homeWifi = wifi.Wifi(ssidHome, passwordHome)  # WLAN-Objekt erstellen
 hotspotWifi = wifi.Wifi(ssidHotspot, passwordHotspot)  # Hotspot-Objekt erstellen
 
 
 # WLAN-Verbindung herstellen
-#homeWifi.connect_wifi()  # WLAN-Verbindung herstellen
-hotspotWifi.connect_wifi()  # Hotspot-Verbindung herstellen
+homeWifi.connect_wifi()  # WLAN-Verbindung herstellen
+#hotspotWifi.connect_wifi()  # Hotspot-Verbindung herstellen
 
 time.sleep(2)  # Kurze Pause, um sicherzustellen, dass die Verbindung hergestellt ist
 
@@ -141,15 +151,18 @@ def heizung_callback(topic, msg):
         if topic == MQTT_TOPIC_STEUERUNG:
             print("Kommando empfangen:", msg.decode())
             if json.loads(msg.decode()) == "ON":
-                Heizung.on()  # Heizung einschalten
+                heizungPin.on()  # Heizung einschalten
+                automatikBetrieb.off()  # Automatikbetrieb ausschalten
                 client.publish(MQTT_TOPIC_STATUS, "On")
                 isAutoMode = False  # Automatikmodus deaktivieren
             elif json.loads(msg.decode()) == "OFF":
-                Heizung.off()
+                heizungPin.off()
+                automatikBetrieb.off()  # Automatikbetrieb ausschalten
                 client.publish(MQTT_TOPIC_STATUS, "Off")
                 isAutoMode = False  # Automatikmodus deaktivieren
             elif json.loads(msg.decode()) == "AUTO":
                 # Logik für auto Modus
+                automatikBetrieb.on()  # Automatikbetrieb einschalten
                 isAutoMode = True
                 client.publish(MQTT_TOPIC_STATUS, "Auto")
 
@@ -160,9 +173,9 @@ def heizung_callback(topic, msg):
 # Automatik modus 
 def auto_mode(temp):
     if temp <= 20.0:
-        Heizung.on()
+        heizungPin.on()
     elif temp >= 30.0:
-        Heizung.off()
+        heizungPin.off()
     
 
 
