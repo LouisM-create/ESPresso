@@ -19,11 +19,13 @@ DB_PATH_TEMPERATUR = "/home/louis/Louis/Document/Prog2/SunPowerStation/src/Code/
 
 # MQTT Callback-Funktionen
 def on_connect(client, userdata, flags, rc):
+    """ Callback-Funktion, die aufgerufen wird, wenn der Client sich mit dem Broker verbindet. """
     print(f"[MQTT] Verbunden mit Code {rc}")
     client.subscribe(MQTT_TOPIC_SUB1)
     print(f"[MQTT] Subscribed to topic: {MQTT_TOPIC_SUB1}")
 
 def on_message(client, userdata, msg):
+    """ Callback-Funktion, die aufgerufen wird, wenn eine Nachricht empfangen wird. """
     if msg.topic == MQTT_TOPIC_SUB1:
 
         payload = msg.payload.decode()
@@ -52,6 +54,7 @@ def on_message(client, userdata, msg):
 # Route zum Abrufen der Temperaturdaten aus der Datenbank für die Grafik
 @app.route("/temperature-data")
 def get_temperature_data():
+    """ Route zum Abrufen der letzten 30 Temperaturdaten aus der Datenbank. """
     conn = sqlite3.connect(DB_PATH_TEMPERATUR)
     cursor = conn.cursor()
     cursor.execute("SELECT Uhrzeit, Temperatur FROM temperatur ORDER BY ID DESC LIMIT 30")
@@ -67,6 +70,7 @@ def get_temperature_data():
 
 # MQTT-Thread
 def mqtt_thread():
+    """ Funktion, die den MQTT-Client in einem separaten Thread startet. """
     client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message

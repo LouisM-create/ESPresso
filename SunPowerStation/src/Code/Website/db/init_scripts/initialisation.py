@@ -5,6 +5,7 @@ db_filname = "temperatur.db"
 db_folder = "SunPowerStation/src/Code/Website/db"
 
 def create_user_db():
+    """Erstellt eine SQLite-Datenbank für die Temperaturdaten."""
     db_path = os.path.join(db_folder, db_filname)
 
     # Stelle sicher, dass der Ordner existiert
