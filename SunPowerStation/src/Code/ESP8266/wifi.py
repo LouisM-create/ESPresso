@@ -40,14 +40,14 @@ class Wifi:
             print('RSSI: ' + str(wlan[3]) + 'dBm')  
             self.led.off()
             time.sleep(0.5)
-            if wlan[0].decode() == self.preSSID :
-                self.kno_Net=1
-                print('Known Network found ')
-                print('Network: '+str(self.preSSID))
-            if wlan[0].decode() == self.preSSID_1:
-                self.kno_Net=2
-                print('Known Network found ')
-                print('Network: '+str(self.preSSID_1))
+          #  if wlan[0].decode() == self.preSSID :    #überflüssig müssste auch so laufen war wegen den switchen 
+          #      self.kno_Net=1
+           #     print('Known Network found ')        
+            #    print('Network: '+str(self.preSSID))
+            #if wlan[0].decode() == self.preSSID_1:
+             #   self.kno_Net=2
+              #  print('Known Network found ')
+               # print('Network: '+str(self.preSSID_1))
         self.led.on()
         
     def show_wifi_info(self):
