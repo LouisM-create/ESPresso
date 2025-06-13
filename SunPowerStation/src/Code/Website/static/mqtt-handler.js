@@ -139,5 +139,5 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Temperaturdaten abrufen und alle 10 Sekunden aktualisieren
     fetchTemperatureData();
-    setInterval(fetchTemperatureData, 10000);
+    setInterval(fetchTemperatureData, 1000);
 });

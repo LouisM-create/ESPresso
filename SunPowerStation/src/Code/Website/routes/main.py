@@ -41,9 +41,9 @@ def temperatur():
 def steuerung():
    """Rendert die Steuerungsseite der Webanwendung.
 
-     Diese Route wird unter dem Pfad 'http://hellgate.ddns.net/steuerung' aufgerufen und liefert 
+    Diese Route wird unter dem Pfad 'http://hellgate.ddns.net/steuerung' aufgerufen und liefert 
     die HTML-Seite 'steuerung.html' zusammen mit einem Seitentitel."""
-    return render_template('steuerung.html', title = 'Steuerung')
+   return render_template('steuerung.html', title = 'Steuerung')
 
 
 @main_routes.route('/heizung/on', methods=['POST'])
