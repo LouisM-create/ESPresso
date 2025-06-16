@@ -19,7 +19,7 @@ function setConnectedStatus() {
     timeoutHandle = setTimeout(() => {
         statusDiv.classList.remove('connected');
         statusText.textContent = "!! ESP8266 is not connected !!";
-    }, 12000);
+    }, 15000);
 }
 
 // Nur ein einziger message-Handler!
