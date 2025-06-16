@@ -85,6 +85,7 @@ ADS1115_REG_CONFIG_CQUE_NONE = 0x0003
 
 # Funktion zur differenziellen Messung A0 - A1
 def read_diff_0_1():
+    """Misst die Spannung die zwischen den Pins 0 und 1 des ADS1115 abfällt."""
     config = (ADS1115_REG_CONFIG_OS_SINGLE |
               ADS1115_REG_CONFIG_MUX_DIFF_0_1 |
               ADS1115_REG_CONFIG_PGA_4_096V |
@@ -109,6 +110,7 @@ def read_diff_0_1():
 
 # Funktion zur differenziellen Messung A2 - A3
 def read_diff_2_3():
+    """Misst die Spannung die zwischen den Pins 2 und 3 des ADS1115 abfällt."""
     config = (ADS1115_REG_CONFIG_OS_SINGLE |
               0x3000 |  # MUX für AIN2 - AIN3
               ADS1115_REG_CONFIG_PGA_4_096V |
@@ -134,6 +136,7 @@ def read_diff_2_3():
 
 # Conetion zu MQTT Broker herstellen
 def connect_mqtt():
+    """Stellt eine Verbindung zum MQTT-Broker her und abonniert die Themen."""
     client = MQTTClient(MQTT_CLIENT_ID, MQTT_BROKER, port=MQTT_PORT)
     client.set_callback(heizung_callback)  # Callback-Funktion setzen
     client.connect()
@@ -145,6 +148,7 @@ def connect_mqtt():
 
 # Empfangen von MQTT-Nachrichten
 def heizung_callback(topic, msg):
+    """Verarbeitet die vom server gesendeten MQTT-Nachrichten."""
     global isAutoMode  # Zugriff auf die globale Variable isAutoMode
     print(topic, msg)
     try:
@@ -172,6 +176,7 @@ def heizung_callback(topic, msg):
 
 # Automatik modus 
 def auto_mode(temp):
+    """Automatischer Modus für die Heizung basierend auf der Temperatur."""
     if temp <= 20.0:
         heizungPin.on()
     elif temp >= 30.0:
@@ -181,6 +186,7 @@ def auto_mode(temp):
 
 # Wiederstandswiderstandsberechnung Rx
 def calculate_resistance(uRx):
+    """Berechnet den Widerstand basierend auf der Spannung."""
     if 0 < uRx < vcc:
         Rx = (r1 * uRx) / (vcc - uRx)
         return Rx
@@ -190,6 +196,7 @@ def calculate_resistance(uRx):
 
 # Temperaturberechnung
 def calculate_temperature(rT, rw):
+    """Berechnet die Temperatur für den PT 100 basierend auf den Widerstandswerten."""
     T = 3383.81 - 3630.67 * math.sqrt(1 - 0.0013136 * (rT - rw))
     return T
     
@@ -258,7 +265,4 @@ while True:
     except Exception as e:
         print("Fehler:", e)
         client.connect()
-
-
-    # Zeitverzögerung    
-    #time.sleep(10)
+        

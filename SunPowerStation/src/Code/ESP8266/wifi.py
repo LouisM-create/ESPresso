@@ -5,12 +5,14 @@ import network
 
 class Wifi:
     def __init__(self,ssid,password):  #Nur zum Initialisieren gedacht 
+        """Initialisiert die WLAN-Verbindung mit SSID und Passwort."""
         self.ssid = ssid
         self.password = password
         self.wlan = network.WLAN(network.STA_IF)
         self.led = machine.Pin(2, machine.Pin.OUT)  # GPIO 2 als Ausgang definieren
 
     def connect_wifi(self):
+        """Ferbindet sich mit dem WLAN-Netzwerk."""
         self.wlan.active(True)
         self.wlan.connect(self.ssid,self.password)
         while not self.wlan.isconnected():
@@ -25,6 +27,7 @@ class Wifi:
             self.led.off() 
 
     def check_wifi(self):
+        """Überprüft den WLAN-Status und listet verfügbare Netzwerke auf."""
         print('Interface Status: ' + str(self.wlan.active()))
         if not self.wlan.active():
             print('Activating interface...')
@@ -51,6 +54,7 @@ class Wifi:
         self.led.on()
         
     def show_wifi_info(self):
+        """Zeigt Informationen über die WLAN-Verbindung an."""
         if self.wlan.isconnected():
             self.led.off()  # LED einschalten, wenn verbunden
             print('WLAN verbunden')
@@ -66,12 +70,14 @@ class Wifi:
             print('WLAN nicht verbunden'+ str(self.wlan))
     
     def disconnect_wifi(self):
+        """Trennt die WLAN-Verbindung und schaltet das Interface aus."""
         self.wlan.disconnect()
         self.wlan.active(False)
         print('WLAN disconnected: ' + str(self.wlan)+ str(self.ssid))
         self.led.on()  # LED ausschalten, wenn WLAN getrennt ist   
    
     def prüf_connection(self):
+        """Überprüft, ob die WLAN-Verbindung aktiv ist."""
         if self.wlan.isconnected():
            # print('WLAN connected') # sonnst nur unötige ausgaben 
             return True
