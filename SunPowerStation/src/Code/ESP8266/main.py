@@ -43,7 +43,7 @@ MQTT_TOPIC_STATUS = b'esp8266/heizungStatus'
 
 # WLAN-Zugangsdaten
 ssidHome = 'Nix-drin'
-passwordHome = '20388305954881642810'
+passwordHome = '08155180'
 
 # Hotspot-Zugangsdaten
 ssidHotspot = 'FBI-Surveillance-Van'
