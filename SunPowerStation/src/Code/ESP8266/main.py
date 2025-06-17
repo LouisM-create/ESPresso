@@ -47,7 +47,7 @@ passwordHome = '08155180'
 
 # Hotspot-Zugangsdaten
 ssidHotspot = 'FBI-Surveillance-Van'
-passwordHotspot = 'TopSecret0815'
+passwordHotspot = '08155180'
 
 # WLAN-Schule- Zugangsdaten
 ssidSchule = "xxx"
